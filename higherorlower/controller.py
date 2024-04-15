@@ -3,7 +3,12 @@ import json
 
 points = 0
 
-input("This is a game of higher or lower. A card will be drawn and then you must guess if the next card will be higher or lower. Since this game uses a deck of cards you can make your guesses based on the cards you have already pulled.\n\nHit enter to start the game.\n")
+game_intro = "This is a game of higher or lower. "
+game_intro += "A card will be drawn and then you must guess if the next card will be higher or lower. "
+game_intro += "Since this game uses a deck of cards you can make your guesses based on the cards you have already pulled."
+game_intro += "\n\nHit enter to start the game.\n"
+
+input(game_intro)
 
 url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
 
