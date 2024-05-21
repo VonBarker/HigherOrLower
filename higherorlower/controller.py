@@ -1,6 +1,27 @@
 import requests as re
 import json
 
+from PyQt6.QtGui import QPixmap, QIcon
+import urllib
+from PyQt6.QtWidgets import QMainWindow, QLabel
+
+class MainWindow(QMainWindow):
+
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.title = "Image Viewer"
+        self.setWindowTitle(self.title)
+
+        label = QLabel(self) 
+        url = 'https://deckofcardsapi.com/static/img/6H.png'    
+        data = urllib.urlopen(url).read()
+        pixmap = QPixmap()
+        pixmap.loadFromData(data)
+        icon = QIcon(pixmap)
+        label.setPixmap(pixmap)
+        self.setCentralWidget(label)
+        self.resize(pixmap.width(), pixmap.height())
+
 points = 0
 
 game_intro = "This is a game of higher or lower. "
