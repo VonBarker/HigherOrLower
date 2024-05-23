@@ -2,6 +2,7 @@ import sys
 
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QPushButton
 from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtGui import QImage, QPixmap
 
 import requests as re
 import json
@@ -55,14 +56,22 @@ class MainWindow(QMainWindow):
             elif self.card_value == "QUEEN": self.card_value = 12
             elif self.card_value == "JACK": self.card_value = 11
             self.card_image = data["cards"][0]["images"]["png"]
-            cards_remaining = data["remaining"]
-            print("Cards Remaining: " + str(cards_remaining))
+            self.cards_remaining = data["remaining"]
+            print("Cards Remaining: " + str(self.cards_remaining))
 
             self.previous_card_value = self.card_value
         else:
             print("There was an error: {response.status_code}")
 
-        #Card Image Here
+        #Card Image
+        self.url_image = QImage()
+        self.url_image.loadFromData(re.get(self.card_image).content)
+
+        self.image_label = QLabel()
+        self.image_label.setPixmap(QPixmap(self.url_image))
+        self.image_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+
+        layout.addWidget(self.image_label)
 
         #Card suit and value
         self.card_info_label = QLabel(str(self.card_value) + " of " + self.card_suit)
@@ -97,10 +106,15 @@ class MainWindow(QMainWindow):
                 elif self.card_value == "QUEEN": self.card_value = 12
                 elif self.card_value == "JACK": self.card_value = 11
                 self.card_image = data["cards"][0]["images"]["png"]
-                cards_remaining = data["remaining"]
-                print("Cards Remaining: " + str(cards_remaining))
+                self.cards_remaining = data["remaining"]
+                print("Cards Remaining: " + str(self.cards_remaining))
 
+                self.url_image.loadFromData(re.get(self.card_image).content)
+                self.image_label.setPixmap(QPixmap(self.url_image))
                 self.card_info_label.setText(str(self.card_value) + " of " + self.card_suit)
+                if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): self.card_info_label.setStyleSheet("color: Red")
+                else: self.card_info_label.setStyleSheet("color: Black")
+                self.cards_remaining_label.setText("Cards Remaining: " + str(self.cards_remaining))
 
             if int(self.card_value) > int(self.previous_card_value):
                 print("Correct")
@@ -128,10 +142,15 @@ class MainWindow(QMainWindow):
                 elif self.card_value == "QUEEN": self.card_value = 12
                 elif self.card_value == "JACK": self.card_value = 11
                 self.card_image = data["cards"][0]["images"]["png"]
-                cards_remaining = data["remaining"]
-                print("Cards Remaining: " + str(cards_remaining))
+                self.cards_remaining = data["remaining"]
+                print("Cards Remaining: " + str(self.cards_remaining))
 
+                self.url_image.loadFromData(re.get(self.card_image).content)
+                self.image_label.setPixmap(QPixmap(self.url_image))
                 self.card_info_label.setText(str(self.card_value) + " of " + self.card_suit)
+                if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): self.card_info_label.setStyleSheet("color: Red")
+                else: self.card_info_label.setStyleSheet("color: Black")
+                self.cards_remaining_label.setText("Cards Remaining: " + str(self.cards_remaining))
 
             if int(self.card_value) < int(self.previous_card_value):
                 print("Correct")
@@ -165,6 +184,12 @@ class MainWindow(QMainWindow):
 
         layout.addLayout(button_layout)
 
+        #Cards Remaining
+        self.cards_remaining_label = QLabel("Cards Remaining: " + str(self.cards_remaining))
+        font = self.cards_remaining_label.font()
+        font.setPointSize(16)
+        self.cards_remaining_label.setFont(font)
+        layout.addWidget(self.cards_remaining_label)
 
         widgets = QWidget()
         widgets.setLayout(layout)
