@@ -26,6 +26,18 @@ class MainWindow(QMainWindow):
         self.setFixedSize(QSize(400, 600))
 
         #Function
+        self.highscore = 0
+        highscore_dict = {"highscore": self.highscore}
+        
+        try:
+            with open('highscore.json', 'r', encoding='utf-8') as f:
+                highscore_dict = json.load(f)
+                self.highscore = highscore_dict["highscore"]
+            print(self.highscore)
+        except:
+            with open('highscore.json', 'w', encoding='utf-8') as f:
+                json.dump(highscore_dict, f, ensure_ascii=False, indent=4)
+
         self.points = 0
 
         url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
@@ -84,6 +96,14 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.card_info_label)
 
         #Score
+        self.highscore_label = QLabel("Highscore: " + str(self.highscore))
+        font = self.highscore_label.font()
+        font.setPointSize(16)
+        self.highscore_label.setFont(font)
+        self.highscore_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.highscore_label)
+
+        #Score
         self.score_label = QLabel("Score: " + str(self.points))
         font = self.score_label.font()
         font.setPointSize(16)
@@ -128,6 +148,14 @@ class MainWindow(QMainWindow):
                     self.score_label.setText("Score: " + str(self.points))
                 else:
                     print("incorrect")
+            
+            if self.points > self.highscore:
+                self.highscore = self.points
+                self.highscore_label.setText("Highscore: " + str(self.highscore))
+                highscore_dict = {"highscore": self.highscore}
+                with open('highscore.json', 'w', encoding='utf-8') as f:
+                    json.dump(highscore_dict, f, ensure_ascii=False, indent=4)
+
 
         def choose_lower():
             self.previous_card_value = self.card_value
@@ -165,6 +193,13 @@ class MainWindow(QMainWindow):
                     self.score_label.setText("Score: " + str(self.points))
                 else:
                     print("incorrect")
+
+            if self.points > self.highscore:
+                self.highscore = self.points
+                self.highscore_label.setText("Highscore: " + str(self.highscore))
+                highscore_dict = {"highscore": self.highscore}
+                with open('highscore.json', 'w', encoding='utf-8') as f:
+                    json.dump(highscore_dict, f, ensure_ascii=False, indent=4)
 
         button_layout = QHBoxLayout()
 
