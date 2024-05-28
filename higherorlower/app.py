@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.setFixedSize(QSize(400, 600))
 
         #Function
+        #find highscore if it exists
         self.highscore = 0
         highscore_dict = {"highscore": self.highscore}
         
@@ -40,6 +41,7 @@ class MainWindow(QMainWindow):
 
         self.points = 0
 
+        #API set up and draw first card
         url = "https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1"
 
         response = re.get(url)
@@ -112,6 +114,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.score_label)
 
         #Higher or Lower Butttons
+        #check if guess was correct and draw new card
         def choose_higher():
             self.previous_card_value = self.card_value
             
@@ -203,6 +206,7 @@ class MainWindow(QMainWindow):
 
         button_layout = QHBoxLayout()
 
+        #Higher Button
         higher_button = QPushButton("Higher")
         font = higher_button.font()
         font.setPointSize(16)
@@ -211,6 +215,7 @@ class MainWindow(QMainWindow):
         button_layout.addWidget(higher_button)
         higher_button.clicked.connect(choose_higher)
 
+        #Lower button
         lower_button = QPushButton("Lower")
         font = lower_button.font()
         font.setPointSize(16)
