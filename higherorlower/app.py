@@ -1,6 +1,14 @@
 import sys
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QPushButton
+from PyQt6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QVBoxLayout,
+    QHBoxLayout,
+    QWidget,
+    QLabel,
+    QPushButton
+)
 from PyQt6.QtCore import QSize, Qt
 from PyQt6.QtGui import QImage, QPixmap
 
@@ -92,7 +100,8 @@ class MainWindow(QMainWindow):
         font = self.card_info_label.font()
         font.setPointSize(16)
         self.card_info_label.setFont(font)
-        if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): self.card_info_label.setStyleSheet("color: Red")
+        if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): 
+            self.card_info_label.setStyleSheet("color: Red")
         else: self.card_info_label.setStyleSheet("color: Black")
         self.card_info_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         layout.addWidget(self.card_info_label)
@@ -136,7 +145,8 @@ class MainWindow(QMainWindow):
                     self.url_image.loadFromData(re.get(self.card_image).content)
                     self.image_label.setPixmap(QPixmap(self.url_image))
                     self.card_info_label.setText(str(self.card_value) + " of " + self.card_suit)
-                    if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): self.card_info_label.setStyleSheet("color: Red")
+                    if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"):
+                        self.card_info_label.setStyleSheet("color: Red")
                     else: self.card_info_label.setStyleSheet("color: Black")
                     self.cards_remaining_label.setText("Cards Remaining: " + str(self.cards_remaining))
 
@@ -181,7 +191,8 @@ class MainWindow(QMainWindow):
                     self.url_image.loadFromData(re.get(self.card_image).content)
                     self.image_label.setPixmap(QPixmap(self.url_image))
                     self.card_info_label.setText(str(self.card_value) + " of " + self.card_suit)
-                    if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"): self.card_info_label.setStyleSheet("color: Red")
+                    if (self.card_suit == "HEARTS" or self.card_suit == "DIAMONDS"):
+                        self.card_info_label.setStyleSheet("color: Red")
                     else: self.card_info_label.setStyleSheet("color: Black")
                     self.cards_remaining_label.setText("Cards Remaining: " + str(self.cards_remaining))
 
@@ -236,6 +247,7 @@ class MainWindow(QMainWindow):
         widgets = QWidget()
         widgets.setLayout(layout)
         self.setCentralWidget(widgets)
+
 
 
 app = QApplication(sys.argv)
